@@ -52,32 +52,24 @@ database.ref().on("value", function (snapshot) {
     else if (snapshot.val().db_playerOneName === undefined && snapshot.val().db_playerTwoName !== undefined) {
         $("#gameSplash").text("Waiting for a new opponent...");
         $("#playerOneName").text("Player One");
-        $("#playerOneWins").text(" ");
-        $("#playerOneLosses").text(" ");
     }
     else {
         $("#playerOneName").text("Player One");
-        $("#playerOneWins").text(" ");
-        $("#playerOneLosses").text(" ");
     }
 
     // If db_player2 has a name, display p2Stats
     if (snapshot.val().db_playerTwoName !== undefined) {
         $("#playerTwoName").text(snapshot.val().db_playerTwoName);
         $("#playerTwoWins").text("Wins: " + snapshot.val().db_playerTwoWins);
-        $("#playerTwoLosses").text("Losses: " + snapshot.val().db_p2Losses);
+        $("#playerTwoLosses").text("Losses: " + snapshot.val().db_playerTwoLosses);
     }
     // If player 1 just logged out, don't let p2 play yet
     else if (snapshot.val().db_playerTwoName === undefined && snapshot.val().db_playerOneName !== undefined) {
         $("#gameSplash").text("Waiting for a new opponent...");
         $("#playerTwoName").text("Player Two");
-        $("#playerTwoWins").text(" ");
-        $("#playerTwoLosses").text(" ");
     }
     else {
         $("#playerTwoName").text("Player Two");
-        $("#playerTwoWins").text(" ");
-        $("#playerTwoLosses").text(" ");
     }
 
     // if Both players are active
@@ -87,6 +79,7 @@ database.ref().on("value", function (snapshot) {
             if (myPlayerNumber === "player1") {
                 // let player1 choose
                 $("#gameSplash").text("Roshambo!");
+                $("#allTheButtons").show();
             }
             else {
                 $("#gameSplash").text("Waiting for " + snapshot.val().db_playerOneName + " to choose");
@@ -97,6 +90,7 @@ database.ref().on("value", function (snapshot) {
             if (myPlayerNumber === "player2") {
                 // let player2 choose  
                 $("#gameSplash").text("Roshambo!");
+                $("#allTheButtons").show();
             }
             else {
                 $("#gameSplash").text("Waiting for " + snapshot.val().db_playerTwoName + " to choose");
@@ -124,12 +118,12 @@ database.ref().on("value", function (snapshot) {
                 if (myPlayerNumber === "player1") {
                     playerOneWins = snapshot.val().db_playerOneWins;
                     playerOneWins++;
-                    playerTwoLosses = snapshot.val().db_p2Losses;
+                    playerTwoLosses = snapshot.val().db_playerTwoLosses;
                     playerTwoLosses++;
                     sequence = 3;
                     database.ref().update({
                         db_playerOneWins: playerOneWins,
-                        db_p2Losses: playerTwoLosses,
+                        db_playerTwoLosses: playerTwoLosses,
                         db_sequence: sequence
                     });
                 }
@@ -192,7 +186,6 @@ $(document).on("click", "#choice", function () {
     var decision = $(this).attr("data");
     //if p1's turn
     if (sequence === 1) {
-        
         sequence = 2;
         // update p1 db value
         database.ref().update({
@@ -202,8 +195,9 @@ $(document).on("click", "#choice", function () {
         
         if (myPlayerNumber === "player1") {
             $("#playerOneImage").attr("src", "./assets/images/" + playerOneChoice + ".png");
+            $("#allTheButtons").hide();
         }
-        else{}
+       
     }
         // if p2's turn
         else if (sequence === 2) {
@@ -214,17 +208,21 @@ $(document).on("click", "#choice", function () {
                 db_playerTwoChoice: decision,
                 db_sequence: sequence
             });
+            if (myPlayerNumber === "player2") {
+                $("#playerTwoImage").attr("src", "./assets/images/" + playerTwoChoice + ".png");
+                $("#allTheButtons").hide();
+            }
         }
     });
 
 // If a user inputs a name & pressed "Play"
-$(document).on("click", ".btnPlayerNameInput", function (event) {
+$(document).on("click", "#playGame", function (event) {
     event.preventDefault();
 
     sequence = 1;
 
     // If the form was for player 1, set local playerOneName & update db_playerOneName
-    if ($(this).attr("id") === "player1") {
+    if ($(this).attr("data") === "player1") {
         playerOneName = $("#playerNameInput").val().trim();
         database.ref().update({
             db_playerOneName: playerOneName,
@@ -236,19 +234,21 @@ $(document).on("click", ".btnPlayerNameInput", function (event) {
         // Identify which player the user is & draw the player's side of the board
         myPlayerNumber = "player1";
         drawPlayerNameDisplay();
+        $("#allTheButtons").hide();
     }
     // If the form was for player 2, do the same
-    else if ($(this).attr("id") === "player2") {
+    else if ($(this).attr("data") === "player2") {
         playerTwoName = $("#playerNameInput").val().trim();
         database.ref().update({
             db_playerTwoName: playerTwoName,
             db_playerTwoWins: 0,
-            db_p2Losses: 0,
+            db_playerTwoLosses: 0,
             db_sequence: sequence
         });
 
         myPlayerNumber = "player2";
         drawPlayerNameDisplay();
+        $("#allTheButtons").hide();
     }
 });
 
@@ -267,12 +267,12 @@ function drawPlayerNameInput(whichPlayer) {
         + '<div class="form-group">'
         + '<input type="text" class="form-control" id="playerNameInput" placeholder="Your Name">'
         + '</div>'
-        + '<button type="submit" class="btn btn-default btnPlayerNameInput" id="' + whichPlayer + '">Start</button>'
+        + '<button type="submit" class="btn waves-effect waves-light" id = "playGame" data="' + whichPlayer + '">Start</button>'
         + '</form>'
     );
 }
 
-// Shows the player which seat they're in, or if they're spectating
+// Shows the player which seat they're in, or if they are watching
 function drawPlayerNameDisplay() {
     if (myPlayerNumber === "none") {
         $("#playerInfo").html("You are currently spectating.");
@@ -330,6 +330,7 @@ database.ref().on("child_added", function (snapshot) {
 
 // When the user closes the window or tab, their seat becomes available
 $(window).unload(function () {
+    var connectedRef = database.ref(".info/connected");
     // If the player is p1, reset the p1 DB values
     if (myPlayerNumber === "player1") {
         database.ref().update({
@@ -345,8 +346,9 @@ $(window).unload(function () {
         database.ref().update({
             db_playerTwoName: null,
             db_playerTwoWins: 0,
-            db_p2Losses: 0
+            db_playerTwoLosses: 0
         });
     }
 
+   
 });
