@@ -56,7 +56,7 @@ function playComputer() {
 //         }
 //     }
 // };
-
+// gave up on logic and firebase seperate combined and commented out 
 
 $("roshambo").on("click", function() {
     userGuess = $(this).attr("data");

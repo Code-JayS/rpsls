@@ -86,10 +86,10 @@ database.ref().on("value", function (snapshot) {
         if (snapshot.val().db_sequence === 1) {
             if (myPlayerNumber === "player1") {
                 // let player1 choose
-                $("#gameSplash").text("Roshambo!");    
+                $("#gameSplash").text("Roshambo!");
             }
             else {
-                $("#gameSplash").text("Waiting for " + snapshot.val().db_playerOneName + " to choose");  
+                $("#gameSplash").text("Waiting for " + snapshot.val().db_playerOneName + " to choose");
             }
         }
         // else if db_sequence === 2
@@ -99,8 +99,8 @@ database.ref().on("value", function (snapshot) {
                 $("#gameSplash").text("Roshambo!");
             }
             else {
-                $("#gameSplash").text("Waiting for "+ snapshot.val().db_playerTwoName + " to choose");
-                
+                $("#gameSplash").text("Waiting for " + snapshot.val().db_playerTwoName + " to choose");
+
             }
         }
         // else
@@ -110,16 +110,15 @@ database.ref().on("value", function (snapshot) {
             playerTwoChoice = snapshot.val().db_playerTwoChoice;
 
 
-            $("#playerOneImage").html('<img src="./assets/images/' + playerOneChoice + '.png" alt=" '+ playerOneChoice + '" class="img img-responsive" />');
-            $("#playerTwoImage").html('<img src="./assets/images/' + playerTwoChoice + '.png" alt="' + playerTwoChoice + '" class="img img-responsive" />');
-console.log (playerOneChoice)
-console.log (playerTwoChoice)
+            $("#playerOneImage").attr("src", "./assets/images/" + playerOneChoice + ".png");
+            $("#playerTwoImage").attr("src", "./assets/images/" + playerTwoChoice + ".png");
+
             // If player 1 wins
             if (playerOneChoice === "rock" && (playerTwoChoice === "scissors" || playerTwoChoice === "lizard")
-            || playerOneChoice === "paper" && (playerTwoChoice === "rock" || playerTwoChoice === "spock")
-            || playerOneChoice === "scissors" && (playerTwoChoice === "paper" || playerTwoChoice === "lizard")
-            || playerOneChoice === "lizard" && (playerTwoChoice === "paper" || playerTwoChoice === "spock")
-            || playerOneChoice === "spock" && (playerTwoChoice === "rock" || playerTwoChoice === "scissors")) {
+                || playerOneChoice === "paper" && (playerTwoChoice === "rock" || playerTwoChoice === "spock")
+                || playerOneChoice === "scissors" && (playerTwoChoice === "paper" || playerTwoChoice === "lizard")
+                || playerOneChoice === "lizard" && (playerTwoChoice === "paper" || playerTwoChoice === "spock")
+                || playerOneChoice === "spock" && (playerTwoChoice === "rock" || playerTwoChoice === "scissors")) {
                 $("#gameSplash").text("Player One wins!");
                 // Only update the database 1 time
                 if (myPlayerNumber === "player1") {
@@ -136,9 +135,9 @@ console.log (playerTwoChoice)
                 }
             }
             // Else if draw
-            else if (playerTwoChoice === playerOneChoice ) {
+            else if (playerTwoChoice === playerOneChoice) {
                 $("#gameSplash").text("It's a draw!")
-               ties++
+                ties++
             }
             // Else (draw)
             else {
@@ -156,7 +155,7 @@ console.log (playerTwoChoice)
                         db_sequence: sequence
                     });
                 }
-                
+
             }
             // setTimeout for 3 seconds & reset sequence to 1
             setTimeout(resetsequence, 1000 * 5);
@@ -193,7 +192,7 @@ $(document).on("click", "#choice", function () {
     var decision = $(this).attr("data");
     //if p1's turn
     if (sequence === 1) {
-        // sequence = 2
+        
         sequence = 2;
         // update p1 db value
         database.ref().update({
@@ -201,18 +200,22 @@ $(document).on("click", "#choice", function () {
             db_sequence: sequence
         });
         
+        if (myPlayerNumber === "player1") {
+            $("#playerOneImage").attr("src", "./assets/images/" + playerOneChoice + ".png");
+        }
+        else{}
     }
-    // if p2's turn
-    else if (sequence === 2) {
-        // sequence = 0
-        sequence = 0;
-        // update p2 db value
-        database.ref().update({
-            db_playerTwoChoice: decision,
-            db_sequence: sequence
-        });
-    }
-});
+        // if p2's turn
+        else if (sequence === 2) {
+            // sequence = 0
+            sequence = 0;
+            // update p2 db value
+            database.ref().update({
+                db_playerTwoChoice: decision,
+                db_sequence: sequence
+            });
+        }
+    });
 
 // If a user inputs a name & pressed "Play"
 $(document).on("click", ".btnPlayerNameInput", function (event) {
@@ -254,8 +257,8 @@ function resetsequence() {
     database.ref().update({
         db_sequence: 1
     });
-    $("#playerOneImage").attr("src","./assets/images/spock.png");
-    $("#playerTwoImage").attr("src","./assets/images/spock.png");
+    $("#playerOneImage").attr("src", "./assets/images/roll.png");
+    $("#playerTwoImage").attr("src", "./assets/images/roll.png");
 }
 // Draws the Player Name Input area if a player's seat is empty
 function drawPlayerNameInput(whichPlayer) {
@@ -276,11 +279,11 @@ function drawPlayerNameDisplay() {
     }
     else if (myPlayerNumber === "player1") {
         $("#playerInfo").html("Welcome, " + playerOneName + " You are player 1.");
-       
+
     }
     else if (myPlayerNumber === "player2") {
         $("#playerInfo").html("Welcome, " + playerTwoName + " You are player 2.");
-       
+
     }
 }
 
@@ -345,5 +348,5 @@ $(window).unload(function () {
             db_p2Losses: 0
         });
     }
-   
+
 });
