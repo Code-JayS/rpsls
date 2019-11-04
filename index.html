@@ -21,45 +21,49 @@
                 class="material-icons">gesture</i> Spock <i class="material-icons">emoji_people</i></h4>
         <div class="row center">
             <div class="col s6 m4">
-                <div class="card">
+                <div class="card medium">
                     <div class="row center">
-                            <span class="card-title" id = playerOneName>Player One</span>
-                        <div class="card-image col s8 push-s2">
-                            <img class="responsive-img" id = "playerOneImage" src="./assets/images/scissors.png">
+                        <span class="card-title" id=playerOneName>Player One</span>
+                        <div class="row center">
+                            <div class="card-image col s8 push-s2">
+                                <img class="responsive-img" id="playerOneImage" src="./assets/images/scissors.png">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row center">
-                        <div class="card-action center">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col s6 m4">
-                <div class="card">
-                    <div class="row center">
-                        <div class="card-image col s8 push-s2">
-                            <div id = "playerInfo"></div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                </div>
-                                <div class="row">
-                                    <div id = "chatLobby"></div>
-                                    <input id="messageInput" placeholder="Message..." />
-                                    <button class="btn waves-effect waves-light" type="submit" name="action"  id ="chatSubmit">Submit
-                                            <i class="material-icons right">send</i>
-                                          </button> 
-                                </div>
+                        <div class="row center">
+                            <div class="card-action center">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                <div class="col s6 m4">
-                    <div class="card">
+            <div class="col s6 m4">
+                <div class="card medium">
+                    <div class="card-content col s8 push-s2 m10 push-m1">
+                        <div id="playerInfo"></div>
+                        <div class="row">
+                            <div class="input-field col s10 push-s1">
+                            </div>
+                            <div class="row">
+                                <input class="input-field col s10 push-s1" id="messageInput" placeholder="Message..." />
+                                <button class="btn waves-effect waves-light" type="submit" name="action"
+                                    id="chatSubmit">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="chatLobby"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m4">
+                <div class="card medium">
+                    <div class="row center">
+                        <span class="card-title" id=playerTwoName>Player Two</span>
                         <div class="row center">
-                                <span class="card-title" id = playerTwoName>Player Two</span>
                             <div class="card-image col s8 push-s2">
-                                <img class="responsive-img" id = "playerTwoImage" src="./assets/images/lizard.png">
+                                <img class="responsive-img" id="playerTwoImage" src="./assets/images/lizard.png">
                             </div>
                         </div>
                         <div class="row center">
@@ -70,60 +74,59 @@
                 </div>
             </div>
         </div>
-        <div class="fixed-action-btn" id = "allTheButtons">
-            <a class="btn-floating btn-large red pulse" id="toggle">
-                <i class="large material-icons">mode_edit</i>
-            </a>
-            <ul>
-                <li>
-                    <a class="btn-floating waves-effect waves-light red" id = "choice" data = "rock"
-                        style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
-                        <i class="material-icons">terrain</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating waves-effect waves-light yellow darken-1" id = "choice" data = "paper"
-                        style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
-                        <i class="material-icons">library_books</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating waves-effect waves-light green" id = "choice" data = "scissors"
-                        style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
-                        <i class="material-icons">content_cut</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating waves-effect waves-light blue" id = "choice" data = "lizard"
-                        style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
-                        <i class="material-icons">gesture</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating waves-effect waves-light green" id = "choice" data = "spock"
-                        style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
-                        <i class="material-icons">emoji_people</i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-
-
-
-        <footer class="page-footer orange">
-            <div class="container">
-                <div class="col l3 s12">
-                    <h5 class="white-text" id = "gameSplash" ></h5>
-                   
-                </div>
-            </div>
     </div>
-    <div class="footer-copyright">
+    <div class="fixed-action-btn" id="allTheButtons">
+        <a class="btn-floating btn-large red pulse" id="toggle">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li>
+                <a class="btn-floating waves-effect waves-light red" id="choice" data="rock"
+                    style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
+                    <i class="material-icons">terrain</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating waves-effect waves-light yellow darken-1" id="choice" data="paper"
+                    style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
+                    <i class="material-icons">library_books</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating waves-effect waves-light green" id="choice" data="scissors"
+                    style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
+                    <i class="material-icons">content_cut</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating waves-effect waves-light blue" id="choice" data="lizard"
+                    style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
+                    <i class="material-icons">gesture</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating waves-effect waves-light green" id="choice" data="spock"
+                    style="opacity: 1; transform: scale(1) translateY(0px) translateX(0px);">
+                    <i class="material-icons">emoji_people</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+
+
+    <footer class="page-footer orange">
         <div class="container">
-            Made with <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+            <div class="col l3 s12">
+                <h5 class="white-text" id="gameSplash"></h5>
+            </div>
         </div>
-    </div>
+        <div class="footer-copyright">
+            <div class="container">
+                Made with <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+            </div>
+        </div>
     </footer>
 
 

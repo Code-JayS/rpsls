@@ -192,28 +192,28 @@ $(document).on("click", "#choice", function () {
             db_playerOneChoice: decision,
             db_sequence: sequence
         });
-        
+
         if (myPlayerNumber === "player1") {
             $("#playerOneImage").attr("src", "./assets/images/" + playerOneChoice + ".png");
             $("#allTheButtons").hide();
         }
-       
+
     }
-        // if p2's turn
-        else if (sequence === 2) {
-            // sequence = 0
-            sequence = 0;
-            // update p2 db value
-            database.ref().update({
-                db_playerTwoChoice: decision,
-                db_sequence: sequence
-            });
-            if (myPlayerNumber === "player2") {
-                $("#playerTwoImage").attr("src", "./assets/images/" + playerTwoChoice + ".png");
-                $("#allTheButtons").hide();
-            }
+    // if p2's turn
+    else if (sequence === 2) {
+        // sequence = 0
+        sequence = 0;
+        // update p2 db value
+        database.ref().update({
+            db_playerTwoChoice: decision,
+            db_sequence: sequence
+        });
+        if (myPlayerNumber === "player2") {
+            $("#playerTwoImage").attr("src", "./assets/images/" + playerTwoChoice + ".png");
+            $("#allTheButtons").hide();
         }
-    });
+    }
+});
 
 // If a user inputs a name & pressed "Play"
 $(document).on("click", "#playGame", function (event) {
@@ -312,16 +312,16 @@ database.ref().on("child_added", function (snapshot) {
     var chatType = snapshot.val().db_chatType;
     var chatName = snapshot.val().db_chatName;
     var chatText = snapshot.val().db_chatText;
-
-
-    if (chatType === "player1") {
-        $("#chatLobby").prepend(chatName + ": " + chatText + '\n');
-    }
-    else if (chatType === "player2") {
-        $("#chatLobby").prepend(chatName + ": " + chatText + '\n');
-    }
-    else if (chatType === "none") {
-        $("#chatLobby").prepend(chatName + ": " + chatText + '\n');
+    
+        if (chatType === "player1") {
+            $("#chatLobby").prepend('<p>' + chatName + ": " + chatText + '</p>');
+        }
+        else if (chatType === "player2") {
+            $("#chatLobby").prepend('<p>' + chatName + ": " + chatText + '</p>');
+        }
+        else if (chatType === "none") {
+            $("#chatLobby").prepend('<p>' + chatName + ": " + chatText + '</p>');
+        
     }
 });
 
@@ -350,5 +350,5 @@ $(window).unload(function () {
         });
     }
 
-   
+
 });
